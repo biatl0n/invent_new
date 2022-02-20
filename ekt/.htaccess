@@ -1,0 +1,10 @@
+AddDefaultCharset UTF-8
+<IfModule dir_module>
+    DirectoryIndex it_invent.php
+</IfModule>
+
+
+#AuthName "Auth"
+#AuthType Basic  
+#Require valid-user
+#AuthUserFile C:\openserver\domains\itinvent.local\.htpasswd
