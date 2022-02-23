@@ -1,23 +1,10 @@
 <?php
 
     session_start();
-    
-    if($_SESSION['login']=='') header('Location: /ekt/login.php');
-    if ($_POST['logout']!=''){
-        $_SESSION=[];
-        session_destroy();
-        header('Location: /ekt/login.php');
-    }
-    if ($isLogin || $_SESSION['login']!=""): ?>
-        <form name="logout" method="POST" action="/ekt/login.php">
-            <input type="submit" name="logout" value="Выход">
-        </form>
-    <? endif;
     require 'classes/IT_invent.class.php';
     $it_invent = new IT_invent;
-	//$it_invent->renameS();
-	//$it_invent->listDelete();
-    $errMsg='';
+
+    if($_SESSION['login']=='') header('Location: /ekt/login.php');
     if($_SERVER['REQUEST_METHOD']=='POST'){
         if (isset($_POST['addPoint'])){
             include 'inc/add_point.inc.php';
@@ -38,6 +25,14 @@
             header("Location: queryMaker.php");
         }
     }
+    if ($_POST['logout']!=''){
+        $_SESSION=[];
+        session_destroy();
+        header('Location: /ekt/login.php');
+    }
+
+    $errMsg='';
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C/DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
@@ -54,7 +49,20 @@
 ?>
 <table cellpadding="0" cellspacing="0" id="body_table" border width="100%">
     <tr>
-        <td colspan="2" valign="top" align="center" id="header">
+        <td id="header">
+            
+        </td>
+        <td style="text-align: center;">
+            <?php print_r($_SESSION['city']); ?>
+            <?php if ($isLogin || $_SESSION['login']!=""): ?>
+                <form name="logout" method="POST" action="/ekt/login.php">
+                    <input type="submit" name="logout" value="Выход">
+                </form>
+            <?php endif; ?>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" valign="top" id="header">
             <h1>IT инвент </h1>
         </td>
     </tr>

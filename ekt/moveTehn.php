@@ -54,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['movTehn'])){
 <?php 
     if ($errMsg!="") echo "<h1 align='center'>".$errMsg."</h1>"
 ?>
+
 <table border width="100%" cellpadding="0" cellspacing="0"  id="body_table">
     <tr>
         <td id="header" colspan="2">

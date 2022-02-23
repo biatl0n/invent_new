@@ -19,6 +19,12 @@ if (isset($_GET['id_p'])) {
 	$id_pp=$_GET['id_p'];
 }
 
+
+$chat_id_move_who=$it_invent->getChatID($_SESSION['chat_id']);
+$chat_id_move_to=$it_invent->getChatID($_POST['selectedPoint']);
+$chat_id_move_from=$it_invent->getChatID($_GET['id_p']);
+
+
 if($id_t!=NULL && $id_p!=NULL && $id_delTehn2==NULL){
     if ($it_invent->movTehn($id_t, $id_p)){
         $ref = str_replace("moveTehn.php","brows.php?id_p=$id_pp", $_SERVER['PHP_SELF']);
@@ -35,9 +41,26 @@ if($id_t!=NULL && $id_p!=NULL && $id_delTehn2==NULL){
         $tehn_modle=$tehn_info[0]['model'];
         $tehn_serN=$tehn_info[0]['serN'];
 
-        $messaggio="Перемещение.\nКто:".$who_move." \nКому:".$city." ".$adress."\nЧто:".$tehn_name." ".$tehn_modle." ".$tehn_serN;
-        $it_invent->sendMessage($_SESSION['chat_id'], $messaggio);
+        $from=$it_invent->getItemPointInfo($_GET['id_p']);
+        $from_city=$from[0][city];
+        $form_adress=$from[0][adress];
 
+        $messaggio="Перемещение.
+                Кто: ".$who_move."
+                Кому: ".$city." ".$adress."
+                Что: ".$tehn_modle." ".$tehn_serN." Проект: ".$tehn_name."
+                Откуда: ".$from_city." ".$form_adress;
+        if ($chat_id_move_who==$chat_id_move_from) {
+            $it_invent->sendMessage($chat_id_move_who, $messaggio);
+        }
+        else {
+            $it_invent->sendMessage($chat_id_move_who, $messaggio);
+            $it_invent->sendMessage($chat_id_move_from, $messaggio);
+        }
+        if ($chat_id_move_to!=""){
+            $it_invent->sendMessage($chat_id_move_to, $messaggio);
+        }
+        $it_invent->sendMessage("269805665", $messaggio);
         header("Location: ".$ref);
     }
 }

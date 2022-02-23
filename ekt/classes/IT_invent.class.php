@@ -641,6 +641,17 @@ LABEL;
     }
 	
 	
+    function getChatID($id_p){
+        $sql = "SELECT id_city, users.chat_id FROM point 
+            LEFT JOIN users USING('id_city')
+            WHERE id_p='$id_p'";
+        $res = $this->_db->query($sql) or die ($this->_db->lastErrorMsg());
+        $res = $this->db2Arr($res);   
+        $res=$res[0]['chat_id'];
+        return $res;
+    }
+
+
 	function login($li, $pw) {
 		$li = $this->clearStr($li);
 		$pw = $this->clearStr($pw);
